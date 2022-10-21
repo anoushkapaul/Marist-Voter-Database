@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Database</title>
+    <link rel="stylesheet" href="Find.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li> <a href="index.html"> Enter Details</a></li>
+                    <li> <a href="Find.html"> Search Database</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div id="findDetails">
+        <h1>Search the database with a Wallet Address </h1>
+        <h4>Wallet Address</h4>
+        <input id="findAddress" type="text"> <br><br>
+        <button id="find">Find ID</button>
+        <button id="findYrBtn">Find Yr</button>
+        <h3 id="findID" type="text"></h3>
+        <h3 id="findYr" type="number"></h3> <br><br>
+    </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1egeXguLngNF-rAXrUaR_SrMiOsJuor4",
+      authDomain: "voter-database-cd486.firebaseapp.com",
+      databaseURL: "https://voter-database-cd486-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "voter-database-cd486",
+      storageBucket: "voter-database-cd486.appspot.com",
+      messagingSenderId: "847516332011",
+      appId: "1:847516332011:web:e877b5611ebe6ff0aaf3ae"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  
+          import {getDatabase, ref, get, set, child, update, remove}
+          from  "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"
+  
+          const db = getDatabase();
+  
+          var findAddress = document.querySelector("#findAddress");//the input of findAddress is stored in this variable
+          var findID = document.querySelector("#findID");//the input of findID is stored in this variable
+          var findYr = document.querySelector("#findYr");//the input of findYr is stored in this variable
+        
+          var findBtn = document.querySelector("#find");//creates a variable that searches the document for the find button using it's ID
+          var findYrBtn = document.querySelector("#findYrBtn");//creates a variable that searches the document for the Find Yr button using it's ID
+  
+          function FindData() {
+              const dbref = ref(db);
+  
+              get(child(dbref, "Student/" + findAddress.value)) //'get'(method imported from firebase) to get data from the database, 'dbref' references where the data is grabbed from, from the database (called by dbref), child (imported from firebase) of email(referenced) parent/folder and searches for the value of whatever is entered into the findAddress field. 
+              .then((snapshot)=>{
+                  if(snapshot.exists()){
+                      findID.innerHTML = "Student ID: " + snapshot.val().ID; //
+                  } else {
+                      alert("No data found");
+                  }
+              })
+              .catch((error)=>{
+                  alert(error)
+              })
+              
+          }
+          findBtn.addEventListener('click', FindData);
+  
+          function FindYr() {
+              const dbref = ref(db);
+  
+              get(child(dbref, "Student/" + findAddress.value))
+              .then((snapshot)=>{
+                  if(snapshot.exists()){
+                      findYr.innerHTML = "Year Level: " + snapshot.val().Yr;
+                  } else {
+                      alert("No data found");
+                  }
+              })
+              .catch((error)=>{
+                  alert(error)
+              })
+              
+          }
+          findYrBtn.addEventListener('click', FindYr);
+        </script>
+</body>
+</html>

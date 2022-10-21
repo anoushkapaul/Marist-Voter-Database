@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Details</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
+</head>
+<style>
+    body {background-color: rgb(225, 255, 192);
+   font-family: "Figtree";
+   margin: 0;
+   text-align: center;
+}
+button {font-family: "Figtree";
+   border: none;
+   background-color: #ffffff;
+   padding: 14px 28px;
+   font-size: 16px;
+   cursor: pointer;
+   text-align: center;
+   display: inline-block;
+    border-radius: 12px;
+    margin: 4px 2px;}
+
+    input { 
+    font-size: 16px;
+    width: 260px; 
+    height: 40px ;
+    border: none;
+    background-color: rgb(243, 255, 230);
+}
+
+ nav {text-align: center; width: 100%;}
+ul {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   background-color: rgb(175, 210, 255);
+ }
+ li {float: left;}
+ 
+ li a {
+   display: block;
+   color: white;
+   font-size: 20px;
+   text-align: center;
+   padding: 14px 16px;
+   text-decoration: none;
+ }
+ 
+ li a:hover { background-color:rgb(0, 85, 196);}
+   </style>
+   <header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li> <a href="index.html"> Enter Details</a></li>
+                <li> <a href="Find.html"> Search Database</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+<div>
+    <h1>Admin Email:</h1>
+    <input id="AdminEmail" type="email">
+    <br>
+    <button id="email">Submit</button>
+</div>
+
+<body>
+    <script type="module">
+
+        alert("This page is for the admin of the current ballot to enter their email for users to contact. It should only be used by and can only be accessed by the admin of the current ballot.")
+
+        // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1egeXguLngNF-rAXrUaR_SrMiOsJuor4",
+      authDomain: "voter-database-cd486.firebaseapp.com",
+      databaseURL: "https://voter-database-cd486-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "voter-database-cd486",
+      storageBucket: "voter-database-cd486.appspot.com",
+      messagingSenderId: "847516332011",
+      appId: "1:847516332011:web:e877b5611ebe6ff0aaf3ae"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  
+          //THIS IS WHERE YOU PASTE THE CODE TO CONNECT TO YOUR OWN DATABASE
+          //Copy and paste the CDN bit of code from your app that you created on Firebase.
+          //The script tag above is already there, so careful not to have duplicate script tags.
+          //After you've copied and pasted, just delete the unnecessary script tags. 
+     
+  
+          import {getDatabase, ref, get, set, child, update, remove}
+          from  "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"
+  
+  
+          //Copy and Paste the URL from near the top of the CDN you pasted in from firebase
+          // (the one where you imported "initializeApp" from),
+          //but change "firebase-app" to "firebase-database"
+          
+  
+          const db = getDatabase();
+        
+        var AdminEmail = document.querySelector("#AdminEmail")
+        var emailBtn = document.querySelector("#email")
+
+        function InsertAdminEmail() {
+            set(ref(db, "email"),{
+                AdminEmail : AdminEmail.value
+            })
+            .then(()=>{
+                alert("Data added successfully");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+
+        emailBtn.addEventListener('click', InsertAdminEmail)
+
+</script>  
+
+
+</body>
+</html>

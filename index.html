@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Voter Database.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
+    <title>Enter Details</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li> <a href="index.html"> Enter Details</a></li>
+                    <li> <a href="Find.html"> Search Database</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div id="enterDetails">
+        <h1>Enter your details here:</h1>
+        <h4>Wallet Address</h4> 
+        <input id="enterAddress" type="text" placeholder="e.g. 0x92b01eA4ccC8be2f95a29e0108622A3B4672FAd8"> 
+        <h4>Student ID Number</h4> 
+        <input id="enterID" type="text" placeholder="e.g.19242"> 
+        <h4>Year Level</h4> 
+        <input id="enterYr" type="number" placeholder="e.g. 11"> <br><br>
+        <button id="insert">Insert</button>
+        <button id="update">Update</button>
+        <button id="remove">Remove</button> <br><br>
+        <p>Need Help?</p>
+<button id="help">Help</button>
+<div id="helpSection" style="display:none">
+This page is used by the admin of Marist College student council elections, to verify voters as students of Marist College. 
+Marist students must use this page before voting for student council proposals, to enter their data into the Voter Database.
+<h4 id="helpHeading">Wallet Address</h4>
+<p>Your wallet address can be found in your Metamask account. It is a 42 character address. 
+    Open Metamask, click the address under the account name (e.g. Account 1) to copy it to your clipboard. 
+    Then simply paste it into the Wallet Address field. </p>
+<h4 id="helpHeading">Student ID Number</h4>
+<p>This is the 5 digit number found under the barcode on your student ID card or in the Kamar details section.</p>
+<h4 id="helpHeading">To insert data:</h4>
+<p>Once all fields are filled out, press the insert button (if this wallet address has never been entered before)</p>
+<h4 id="helpHeading">To update your data:</h4>
+<p>Fill out all fields again and then press the update button to change the data that you want (only if you entered your details into the database before). 
+   Your wallet address must stay the same. The data you previously entered will be updated in the database. </p>
+<h4 id="helpHeading">To remove your data:</h4>
+<p>Fill in your wallet address and then press the remove button (only if you entered your details into the database before).
+     Your data will be removed from the voter database and you can no longer vote in Marist elections.
+     If this is a mistake, just re-enter your data and insert it again.</p>
+<h4 id="helpHeading">Your Data</h4>
+<p> In using this page, you can be assured your data is stored and used safely. Your wallet address cannot be used in any way other than to verify you as a voter.
+     No one can take ETH out of your account with your wallet address. The data you enter cannot be linked to you. 
+     Only those with your wallet address can see the info you enter on this page. The choice you make when you vote remains private even if you use this page. </p>
+     <div>
+        More questions? Feel free to contact the admin of the current ballot with any queries.
+       <br>
+        <button id="FindAdminEmail">Show admin's email</button>
+        <h3 id="findEmail" type="text"></h3>
+    </div>
+</div>
+    
+    <script type="module">
+        alert ("By using this page, you consent to your wallet address and Student ID number being stored in a database. For more information about privacy and how your data is used, look under 'Your data' in the help section.")//Alert that pops up when the page is opened
+      // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyA1egeXguLngNF-rAXrUaR_SrMiOsJuor4",
+    authDomain: "voter-database-cd486.firebaseapp.com",
+    databaseURL: "https://voter-database-cd486-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "voter-database-cd486",
+    storageBucket: "voter-database-cd486.appspot.com",
+    messagingSenderId: "847516332011",
+    appId: "1:847516332011:web:e877b5611ebe6ff0aaf3ae"
+  };
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+        import {getDatabase, ref, get, set, child, update, remove} //importing tools: 'getDatabase' is to access the database, 'set' to set data into the database, 'get' to get data from the database, 'update' to update data, 'remove' to remove data, 'ref' allows me to get or set with a specific reference, 'child' to find the child part within the data 
+        from  "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"// the source of these tools is the firebase library linked
+        const db = getDatabase();//a constant variable to call the getDatabase method from firebase
+        var enterAddress = document.querySelector("#enterAddress");// variable that stores something from the document, querySelector finds the ID of enterAddress
+        var enterID = document.querySelector("#enterID");//queries the enterID ID from the html and stores it in the variable
+        var enterYr = document.querySelector("#enterYr"); //queries the enterYr ID from the html and stores it in the variable
+        var findEmail = document.querySelector("#findEmail")
+        var FindAdminEmailBtn = document.querySelector("#FindAdminEmail");
+
+        var insertBtn = document.querySelector("#insert");
+        var updateBtn = document.querySelector("#update");
+        var removeBtn = document.querySelector("#remove");
+        var helpBtn = document.querySelector("#help")
+        function InsertData() {
+            set(ref(db, "Student/"+ enterAddress.value),{
+                ID: enterID.value,
+                Address: enterAddress.value,
+                Yr: enterYr.value
+            })
+            .then(()=>{
+                alert("Data added successfully");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+        function UpdateData(){
+            update(ref(db, "Student/"+ enterAddress.value),{
+                ID: enterID.value,
+                Yr: enterYr.value
+            })
+            .then(()=>{
+                alert("Data updated successfully");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+        function RemoveData(){
+            remove(ref(db, "Student/"+ enterAddress.value))
+            .then(()=>{
+                alert("Data deleted successfully");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+        function FindAdminEmail() {
+            const dbref = ref(db);
+            get(child(dbref, "email/"))
+            .then((snapshot)=>{
+                if(snapshot.exists()){
+                    findEmail.innerHTML = "Admin's Email: " + snapshot.val().AdminEmail;
+                } else {
+                    alert("No data found");
+                }
+            })
+            .catch((error)=>{
+                alert(error)
+            })
+            
+        }
+        insertBtn.addEventListener('click', InsertData);
+        updateBtn.addEventListener('click', UpdateData);
+        removeBtn.addEventListener('click', RemoveData);
+        helpBtn.addEventListener ('click', help)
+        FindAdminEmailBtn.addEventListener('click', FindAdminEmail);
+        function help() {
+  var help = document.getElementById("helpSection");
+  if (help.style.display == "block") {
+    help.style.display = "none";
+  } else {
+    help.style.display = "block";
+  }
+}
+        </script>

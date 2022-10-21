@@ -1,0 +1,48 @@
+body {background-color: rgb(157, 157, 255);
+    font-family: "Figtree";
+    margin: 0;
+}
+h4 {
+    font-size: 40px;
+}
+
+button {font-family: "Figtree";
+    border: none;
+    background-color: #9ffbda;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    border-radius: 12px;
+    margin: 4px 2px;}
+    
+#findDetails { text-align: center; color: white}
+
+input { 
+    width: 410px; 
+    height: 30px ;
+    border: none;
+    background-color:rgb(186, 186, 255);
+}
+
+nav {text-align: center;}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(59, 0, 207);
+  }
+  li {float: left; }
+  
+  li a {
+    display: block;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover { background-color: #111;}
